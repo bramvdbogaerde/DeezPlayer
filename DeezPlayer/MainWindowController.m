@@ -15,6 +15,10 @@
     [self setBackground];
     [self setUserAgent];
     [self setUserStylesheet];
+    // Allow Facebook and Google+ login window to open
+    [webView setUIDelegate:self];
+    [webView setGroupName:@"MyDocument"];
+
     [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://deezer.com/"]]];
     
     // Custom Title bar color
@@ -22,7 +26,27 @@
 
 
 }
+// Allow Facebook and Google+ login window to open
+- (WebView *)webView:(WebView *)sender createWebViewWithRequest:(NSURLRequest *)request {
+    
+    return [self externalWebView:sender];
+}
 
+- (void)webView:(WebView *)sender decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id<WebPolicyDecisionListener>)listener
+{
+    [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[actionInformation objectForKey:WebActionOriginalURLKey]]]];
+}
+
+-(WebView*)externalWebView:(WebView*)newWebView
+{
+    WebView *wwebView = newWebView;
+    
+    [wwebView setUIDelegate:self];
+    [wwebView setPolicyDelegate:self];
+    [wwebView setResourceLoadDelegate:self];
+    return wwebView;
+}
+//
 - (void)webView:(WebView *)sender didReceiveTitle:(NSString *)title forFrame:(WebFrame *)frame {
     if (frame == [sender mainFrame])
         [styledWindow setTitle:title];
