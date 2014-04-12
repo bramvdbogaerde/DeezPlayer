@@ -16,11 +16,16 @@
     [self setUserAgent];
     [self setUserStylesheet];
     [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://deezer.com/"]]];
+    
+    // Custom Title bar color
+    [styledWindow setDeezerColors];
+
+
 }
 
 - (void)webView:(WebView *)sender didReceiveTitle:(NSString *)title forFrame:(WebFrame *)frame {
     if (frame == [sender mainFrame])
-        [[self window] setTitle:title];
+        [styledWindow setTitle:title];
 }
 
 - (void) setUserAgent {
@@ -93,7 +98,7 @@
 
 - (void)setBackground {
     [webView setDrawsBackground:NO];
-    [[self window] setBackgroundColor:NSColor.blackColor];
+    [[self window] setBackgroundColor:[NSColor colorWithDeviceWhite:0.200 alpha:1.000]];
 
     NSImageView *imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 480, 215)];
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"deezer-logo" ofType:@"png"];

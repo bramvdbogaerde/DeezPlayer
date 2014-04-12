@@ -8,10 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
+#import <INAppStoreWindow/INAppStoreWindow.h>
+#import "StyledWindow.h"
+
 
 @interface MainWindowController : NSWindowController {
     IBOutlet NSView *view;
     IBOutlet WebView *webView;
+    IBOutlet StyledWindow *styledWindow;
 }
 
 - (void)togglePlayPause;
